@@ -9,13 +9,8 @@ import Cart from "./components/Cart";
 import Checkout from "./components/Checkout";
 import OrderList from "./components/OrderList";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-import MyProducts from './components/MyProducts'; // ✅ Adjust path as per your structure
-
-import UserManual from "./components/UserManual"; // Adjust path if needed
-
-
-
+import MyProducts from "./components/MyProducts";
+import UserManual from "./components/UserManual";
 
 function App() {
   return (
@@ -25,6 +20,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route path="/login" element={<LoginUser />} />
+        <Route path="/products" element={<ProductList />} />
+        <Route path="/user-manual" element={<UserManual />} />
 
         {/* Protected Routes */}
         <Route
@@ -35,9 +32,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        <Route path="/products" element={<ProductList />} />
-
         <Route
           path="/cart"
           element={
@@ -46,7 +40,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/checkout"
           element={
@@ -55,7 +48,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/orders"
           element={
@@ -64,9 +56,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/my-products" element={<MyProducts />} />
-        {/* Removed supplier-profile and vendor-profile routes since replaced with Home */}
-        <Route path="/user-manual" element={<UserManual />} />
+        <Route
+          path="/my-products"
+          element={
+            <ProtectedRoute>
+              <MyProducts />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
