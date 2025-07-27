@@ -27,7 +27,7 @@ function ProductList() {
 
   const fetchProducts = async () => {
     try {
-      let url = `http://localhost:8080/products/by-location?state=${selectedState}&city=${selectedCity}`;
+      let url = `https://project-backend-production-d6c2.up.railway.app/products/by-location?state=${selectedState}&city=${selectedCity}`;
 
       if (filter === "price") url += "&sort=price";
       else if (filter === "rating") url += "&sort=rating";
@@ -47,7 +47,7 @@ function ProductList() {
 
     try {
       const res = await axios.get(
-        `http://localhost:8080/products/search?keyword=${keyword}`
+        `https://project-backend-production-d6c2.up.railway.app/products/search?keyword=${keyword}`
       );
       const filtered = res.data.filter(
         (p) =>
@@ -67,7 +67,7 @@ function ProductList() {
   const handleAddToCart = async (productId) => {
     try {
       const quantity = 1;
-      await axios.post("http://localhost:8080/cart/add", null, {
+      await axios.post("https://project-backend-production-d6c2.up.railway.app/cart/add", null, {
         params: { vendorId, productId, quantity },
       });
       setMessage("Item added to cart ✅");

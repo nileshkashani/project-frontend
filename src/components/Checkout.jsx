@@ -44,15 +44,19 @@ function Checkout() {
         paymentMethod,
       };
 
-      await axios.post("http://localhost:8080/orders/checkout", requestBody, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await axios.post(
+        "https://project-backend-production-d6c2.up.railway.app/orders/checkout",
+        requestBody,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       localStorage.removeItem("checkoutItems");
       alert("Order placed successfully!");
-      navigate("/orders"); // ✅ Redirect to /orders instead of /products
+      navigate("/orders");
     } catch (err) {
       console.error("Error placing order:", err);
       alert("Failed to place order.");

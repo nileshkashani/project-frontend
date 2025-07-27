@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 function Home() {
-  const [user, setUser ] = useState(null);
+  const [user, setUser] = useState(null);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
 
@@ -15,13 +15,15 @@ function Home() {
 
   const navigate = useNavigate();
 
+  const COUNTRY_API = "https://countriesnow.space/api/v0.1";
+
   useEffect(() => {
-    const savedUser  = JSON.parse(localStorage.getItem("user"));
-    if (savedUser ) setUser (savedUser );
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    if (savedUser) setUser(savedUser);
   }, []);
 
   useEffect(() => {
-    fetch("https://countriesnow.space/api/v0.1/countries/states", {
+    fetch(`${COUNTRY_API}/countries/states`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ country: "India" }),
@@ -34,7 +36,7 @@ function Home() {
   }, []);
 
   const fetchCities = (stateName) => {
-    fetch("https://countriesnow.space/api/v0.1/countries/state/cities", {
+    fetch(`${COUNTRY_API}/countries/state/cities`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ country: "India", state: stateName }),
@@ -107,15 +109,15 @@ function Home() {
             <>
               {user.role === "VENDOR" && (
                 <>
-                  <Link className="transition transform hover:scale-105 hover:text-indigo-900 hover:font-semibold" to="/user-manual">User  Manual</Link>
-                  <Link className="transition transform hover:scale-105 hover:text-indigo-900 hover:font-semibold" to="/cart">My Cart</Link>
-                  <Link className="transition transform hover:scale-105 hover:text-indigo-900 hover:font-semibold" to="/orders">My Orders</Link>
+                  <Link to="/user-manual" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">User Manual</Link>
+                  <Link to="/cart" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">My Cart</Link>
+                  <Link to="/orders" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">My Orders</Link>
                 </>
               )}
               {user.role === "SUPPLIER" && (
                 <>
-                  <Link className="transition transform hover:scale-105 hover:text-indigo-900 hover:font-semibold" to="/add-product">Add Raw Material</Link>
-                  <Link className="transition transform hover:scale-105 hover:text-indigo-900 hover:font-semibold" to="/my-products">My Raw Materials</Link>
+                  <Link to="/add-product" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">Add Raw Material</Link>
+                  <Link to="/my-products" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">My Raw Materials</Link>
                 </>
               )}
               <button
@@ -126,9 +128,7 @@ function Home() {
               </button>
             </>
           ) : (
-            <>
-             
-            </>
+            <></>
           )}
         </nav>
       </motion.header>
@@ -164,6 +164,7 @@ function Home() {
           >
             <h3 className="text-xl font-bold mb-4 text-indigo-600">Find Raw Materials Near You</h3>
 
+            {/* State Input */}
             <motion.div className="relative mb-4">
               <input
                 type="text"
@@ -191,6 +192,7 @@ function Home() {
               )}
             </motion.div>
 
+            {/* City Input */}
             <motion.div className="relative mb-4">
               <input
                 type="text"

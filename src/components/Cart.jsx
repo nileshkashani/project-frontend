@@ -13,9 +13,11 @@ function Cart() {
 
   useEffect(() => {
     if (vendorId) {
-      axios.get(`http://localhost:8080/cart/view/${vendorId}`).then((res) => {
-        setCartItems(res.data);
-      });
+      axios
+        .get(`https://project-backend-production-d6c2.up.railway.app/cart/view/${vendorId}`)
+        .then((res) => {
+          setCartItems(res.data);
+        });
     }
   }, [vendorId]);
 
@@ -40,7 +42,7 @@ function Cart() {
 
   const removeFromCart = (cartItemId) => {
     axios
-      .delete(`http://localhost:8080/cart/remove/${cartItemId}`)
+      .delete(`https://project-backend-production-d6c2.up.railway.app/cart/remove/${cartItemId}`)
       .then(() => {
         setCartItems((prev) => prev.filter((item) => item.id !== cartItemId));
         setSelectedItems((prev) => prev.filter((id) => id !== cartItemId));

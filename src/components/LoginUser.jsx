@@ -13,11 +13,13 @@ function LoginUser() {
 
   const navigate = useNavigate();
 
+  const BASE_URL = "https://project-backend-production-d6c2.up.railway.app";
+
   // 🔒 Password-based login
   const loginWithPassword = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/users/login", {
+      const response = await axios.post(`${BASE_URL}/users/login`, {
         email,
         password,
       });
@@ -37,7 +39,7 @@ function LoginUser() {
   const sendOtp = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/users/send-otp", { email });
+      await axios.post(`${BASE_URL}/users/send-otp`, { email });
       setStep(2);
       setError("");
     } catch (err) {
@@ -49,7 +51,7 @@ function LoginUser() {
   const verifyOtp = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/users/verify-otp", {
+      const res = await axios.post(`${BASE_URL}/users/verify-otp`, {
         email,
         otp,
       });

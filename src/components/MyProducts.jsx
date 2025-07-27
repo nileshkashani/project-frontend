@@ -9,7 +9,7 @@ function MyProducts() {
   useEffect(() => {
     if (user?.id) {
       axios
-        .get(`http://localhost:8080/products/by-supplier/${user.id}`)
+        .get(`https://project-backend-production-d6c2.up.railway.app/products/by-supplier/${user.id}`)
         .then((res) => setProducts(res.data))
         .catch((err) => console.error("Failed to fetch products", err));
     }

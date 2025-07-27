@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AddProduct = () => {
-  // Load saved inputs from localStorage if any (memory)
   const savedName = localStorage.getItem('addProduct_name') || '';
   const savedDescription = localStorage.getItem('addProduct_description') || '';
   const savedPrice = localStorage.getItem('addProduct_price') || '';
@@ -11,7 +10,6 @@ const AddProduct = () => {
   const [description, setDescription] = useState(savedDescription);
   const [price, setPrice] = useState(savedPrice);
 
-  // Save inputs to localStorage on change to remember state if page refreshes
   useEffect(() => {
     localStorage.setItem('addProduct_name', name);
   }, [name]);
@@ -40,7 +38,7 @@ const AddProduct = () => {
     };
 
     try {
-      await axios.post(`http://localhost:8080/products/add/${user.id}`, productData, {
+      await axios.post(`https://project-backend-production-d6c2.up.railway.app/products/add/${user.id}`, productData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -49,7 +47,6 @@ const AddProduct = () => {
 
       alert("Product added successfully!");
 
-      // Clear form and localStorage
       setName('');
       setDescription('');
       setPrice('');

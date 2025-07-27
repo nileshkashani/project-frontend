@@ -8,7 +8,7 @@ function OrderList() {
   useEffect(() => {
     if (user && user.id) {
       axios
-        .get(`http://localhost:8080/orders/vendor/${user.id}`)
+        .get(`https://project-backend-production-d6c2.up.railway.app/orders/vendor/${user.id}`)
         .then((res) => setOrders(res.data))
         .catch((err) => console.error("Error fetching orders", err));
     }
