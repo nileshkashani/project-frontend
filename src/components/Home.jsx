@@ -121,7 +121,7 @@ function Home() {
         </div>
 
         {/* Navigation */}
-        <nav className="hidden md:flex space-x-6 text-indigo-700 font-medium">
+        <nav className="hidden md:flex items-center space-x-6 text-indigo-700 font-medium">
           <Link to="/user-manual" className="hover:text-indigo-900">User Manual</Link>
           {user ? (
             <>
@@ -137,12 +137,14 @@ function Home() {
                   <Link to="/my-products" className="hover:text-indigo-900">My Raw Materials</Link>
                 </>
               )}
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              >
-                Logout
-              </button>
+              <div className="flex justify-center items-center">
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Logout
+                </button>
+              </div>
             </>
           ) : (
             <>
@@ -171,12 +173,14 @@ function Home() {
                   <Link to="/my-products" className="block hover:text-indigo-900" onClick={() => setMenuOpen(false)}>My Raw Materials</Link>
                 </>
               )}
-              <button
-                onClick={() => { handleLogout(); setMenuOpen(false); }}
-                className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              >
-                Logout
-              </button>
+              <div className="flex justify-center">
+                <button
+                  onClick={() => { handleLogout(); setMenuOpen(false); }}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-40"
+                >
+                  Logout
+                </button>
+              </div>
             </>
           ) : (
             <>
@@ -271,8 +275,6 @@ function Home() {
           </motion.div>
         )}
       </motion.main>
-
-  
     </div>
   );
 }
