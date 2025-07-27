@@ -15,22 +15,26 @@ function Home() {
 
   const COUNTRY_API = "https://countriesnow.space/api/v0.1";
 
-  // 🔁 Detect login via OTP or page redirect
+  // ✅ Watch for login updates via navigation
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     setUser(storedUser ? JSON.parse(storedUser) : null);
   }, [location]);
 
-  // Also update user if storage is updated from other tabs
+  // ✅ Also poll for OTP login/localStorage changes every second
   useEffect(() => {
-    const handleStorage = () => {
+    const interval = setInterval(() => {
       const storedUser = localStorage.getItem("user");
-      setUser(storedUser ? JSON.parse(storedUser) : null);
-    };
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
+      const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+      if (JSON.stringify(parsedUser) !== JSON.stringify(user)) {
+        setUser(parsedUser);
+      }
+    }, 1000);
 
+    return () => clearInterval(interval);
+  }, [user]);
+
+  // Fetch states once
   useEffect(() => {
     fetch(`${COUNTRY_API}/countries/states`, {
       method: "POST",
