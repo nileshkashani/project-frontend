@@ -30,6 +30,7 @@ function LoginUser() {
         localStorage.setItem("vendorId", user.id);
       }
       navigate("/");
+      window.location.reload(); // 🔁 Force reload to update visible UI
     } catch (err) {
       setError("Invalid email or password");
     }
@@ -62,6 +63,7 @@ function LoginUser() {
         localStorage.setItem("vendorId", user.id);
       }
       navigate("/");
+      window.location.reload(); // 🔁 Force reload after OTP login
     } catch (err) {
       setError("Invalid OTP");
     }

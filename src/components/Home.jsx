@@ -3,23 +3,29 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 function Home() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-
   const [stateSuggestions, setStateSuggestions] = useState([]);
   const [citySuggestions, setCitySuggestions] = useState([]);
 
   const navigate = useNavigate();
-
   const COUNTRY_API = "https://countriesnow.space/api/v0.1";
 
+  // Refresh user if storage updates (like OTP login)
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("user"));
-    if (savedUser) setUser(savedUser);
+    const handleStorageUpdate = () => {
+      const storedUser = localStorage.getItem("user");
+      setUser(storedUser ? JSON.parse(storedUser) : null);
+    };
+    window.addEventListener("storage", handleStorageUpdate);
+    return () => window.removeEventListener("storage", handleStorageUpdate);
   }, []);
 
   useEffect(() => {
@@ -86,8 +92,8 @@ function Home() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    setUser(null);
     navigate("/");
-    window.location.reload();
   };
 
   return (
@@ -109,26 +115,29 @@ function Home() {
             <>
               {user.role === "VENDOR" && (
                 <>
-                  <Link to="/user-manual" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">User Manual</Link>
-                  <Link to="/cart" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">My Cart</Link>
-                  <Link to="/orders" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">My Orders</Link>
+                  <Link to="/user-manual" className="hover:text-indigo-900">User Manual</Link>
+                  <Link to="/cart" className="hover:text-indigo-900">My Cart</Link>
+                  <Link to="/orders" className="hover:text-indigo-900">My Orders</Link>
                 </>
               )}
               {user.role === "SUPPLIER" && (
                 <>
-                  <Link to="/add-product" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">Add Raw Material</Link>
-                  <Link to="/my-products" className="hover:text-indigo-900 hover:font-semibold transition transform hover:scale-105">My Raw Materials</Link>
+                  <Link to="/add-product" className="hover:text-indigo-900">Add Raw Material</Link>
+                  <Link to="/my-products" className="hover:text-indigo-900">My Raw Materials</Link>
                 </>
               )}
               <button
                 onClick={handleLogout}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
               >
                 Logout
               </button>
             </>
           ) : (
-            <></>
+            <>
+              <Link to="/register" className="hover:text-indigo-900">Register</Link>
+              <Link to="/login" className="hover:text-indigo-900">Login</Link>
+            </>
           )}
         </nav>
       </motion.header>
@@ -171,19 +180,15 @@ function Home() {
                 value={selectedState}
                 onChange={handleStateInput}
                 placeholder="Type your State"
-                className="border px-4 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-300 transition"
+                className="border px-4 py-2 rounded-md w-full"
               />
               {stateSuggestions.length > 0 && (
-                <motion.ul
-                  className="absolute z-10 bg-white border w-full mt-1 rounded shadow max-h-40 overflow-y-auto"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
+                <motion.ul className="absolute bg-white border w-full mt-1 rounded shadow max-h-40 overflow-y-auto">
                   {stateSuggestions.map((s, i) => (
                     <li
                       key={i}
                       onClick={() => selectState(s)}
-                      className="px-4 py-2 hover:bg-indigo-100 cursor-pointer transition"
+                      className="px-4 py-2 hover:bg-indigo-100 cursor-pointer"
                     >
                       {s}
                     </li>
@@ -199,19 +204,15 @@ function Home() {
                 value={selectedCity}
                 onChange={handleCityInput}
                 placeholder="Type your City"
-                className="border px-4 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-300 transition"
+                className="border px-4 py-2 rounded-md w-full"
               />
               {citySuggestions.length > 0 && (
-                <motion.ul
-                  className="absolute z-10 bg-white border w-full mt-1 rounded shadow max-h-40 overflow-y-auto"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
+                <motion.ul className="absolute bg-white border w-full mt-1 rounded shadow max-h-40 overflow-y-auto">
                   {citySuggestions.map((c, i) => (
                     <li
                       key={i}
                       onClick={() => selectCity(c)}
-                      className="px-4 py-2 hover:bg-indigo-100 cursor-pointer transition"
+                      className="px-4 py-2 hover:bg-indigo-100 cursor-pointer"
                     >
                       {c}
                     </li>
@@ -224,32 +225,10 @@ function Home() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleSearchSuppliers}
-              className="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition"
+              className="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700"
             >
               Search
             </motion.button>
-          </motion.div>
-        )}
-
-        {!user && (
-          <motion.div
-            className="space-x-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <Link
-              to="/register"
-              className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
-            >
-              Register
-            </Link>
-            <Link
-              to="/login"
-              className="inline-block px-6 py-3 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-100 transition"
-            >
-              Login
-            </Link>
           </motion.div>
         )}
       </motion.main>
