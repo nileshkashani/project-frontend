@@ -111,35 +111,37 @@ function Home() {
           SnackSource
         </motion.h1>
         <nav className="space-x-6 text-indigo-700 font-medium">
-          {user ? (
-            <>
-              {user.role === "VENDOR" && (
-                <>
-                  <Link to="/user-manual" className="hover:text-indigo-900">User Manual</Link>
-                  <Link to="/cart" className="hover:text-indigo-900">My Cart</Link>
-                  <Link to="/orders" className="hover:text-indigo-900">My Orders</Link>
-                </>
-              )}
-              {user.role === "SUPPLIER" && (
-                <>
-                  <Link to="/add-product" className="hover:text-indigo-900">Add Raw Material</Link>
-                  <Link to="/my-products" className="hover:text-indigo-900">My Raw Materials</Link>
-                </>
-              )}
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/register" className="hover:text-indigo-900">Register</Link>
-              <Link to="/login" className="hover:text-indigo-900">Login</Link>
-            </>
-          )}
-        </nav>
+  <Link to="/user-manual" className="hover:text-indigo-900">User Manual</Link>
+
+  {user ? (
+    <>
+      {user.role === "VENDOR" && (
+        <>
+          <Link to="/cart" className="hover:text-indigo-900">My Cart</Link>
+          <Link to="/orders" className="hover:text-indigo-900">My Orders</Link>
+        </>
+      )}
+      {user.role === "SUPPLIER" && (
+        <>
+          <Link to="/add-product" className="hover:text-indigo-900">Add Raw Material</Link>
+          <Link to="/my-products" className="hover:text-indigo-900">My Raw Materials</Link>
+        </>
+      )}
+      <button
+        onClick={handleLogout}
+        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+      >
+        Logout
+      </button>
+    </>
+  ) : (
+    <>
+      <Link to="/register" className="hover:text-indigo-900">Register</Link>
+      <Link to="/login" className="hover:text-indigo-900">Login</Link>
+    </>
+  )}
+</nav>
+
       </motion.header>
 
       <motion.main
