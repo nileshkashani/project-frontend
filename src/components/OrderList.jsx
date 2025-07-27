@@ -17,7 +17,7 @@ function OrderList() {
   }, [user]); // user reference is stable now
 
   return (
-    <div className="min-h-screen bg-gray-100 px-4 py-6">
+    <div className="min-h-screen bg-gray-100 px-4 py-6 font-inter">
       <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">My Orders</h2>
       <div className="grid gap-4 max-w-3xl mx-auto">
         {orders.length === 0 ? (

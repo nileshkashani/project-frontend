@@ -71,7 +71,7 @@ function Checkout() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 bg-white rounded-md shadow-md mt-6">
+    <div className="max-w-3xl mx-auto p-4 bg-white rounded-md shadow-md mt-6 font-inter">
       <h2 className="text-2xl font-bold mb-4 text-center">Checkout</h2>
 
       {checkoutItems.length === 0 ? (

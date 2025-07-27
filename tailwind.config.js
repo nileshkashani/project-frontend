@@ -1,4 +1,3 @@
-// tailwind.config.js
 export default {
   content: [
     "./index.html",
@@ -7,7 +6,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+        inter: ["'Inter'", "sans-serif"], // Example
+        mono: ["'Fira Code'", "monospace"], // If using monospaced fonts
       },
     },
   },

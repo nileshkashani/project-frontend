@@ -63,7 +63,7 @@ const AddProduct = () => {
     <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg mt-10 
                     sm:p-10 sm:mt-16
                     md:max-w-xl
-                    lg:max-w-2xl">
+                    lg:max-w-2xl font-inter">
       <h2 className="text-3xl font-bold text-indigo-600 mb-8 text-center">Add New Product</h2>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
         <input

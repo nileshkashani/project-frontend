@@ -16,7 +16,7 @@ function MyProducts() {
   }, [user]);
 
   return (
-    <div className="p-6 bg-gradient-to-br from-gray-50 to-indigo-100 min-h-screen">
+    <div className="p-6 bg-gradient-to-br from-gray-50 to-indigo-100 min-h-screen font-inter">
       <h2 className="text-3xl font-bold mb-6 text-center text-indigo-700">My Raw Materials</h2>
       {products.length === 0 ? (
         <p className="text-center text-gray-600">No raw materials found.</p>

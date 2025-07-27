@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function UserManual() {
   return (
-    <div className="min-h-screen bg-white text-gray-800 p-8">
+    <div className="min-h-screen bg-white text-gray-800 p-8 font-inter">
       <h1 className="text-3xl font-bold mb-6 text-indigo-700">📘 User Manual</h1>
 
       <p className="mb-4">

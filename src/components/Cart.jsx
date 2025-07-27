@@ -58,7 +58,7 @@ function Cart() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
+    <div className="max-w-4xl mx-auto px-4 py-6 font-inter">
       <h2 className="text-3xl font-semibold mb-6 text-center text-blue-600">Your Cart</h2>
 
       {cartItems.length === 0 ? (
