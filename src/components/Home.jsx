@@ -2,7 +2,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-
 function Home() {
   const [user, setUser] = useState(null);
   const [states, setStates] = useState([]);
@@ -16,14 +15,13 @@ function Home() {
 
   const COUNTRY_API = "https://countriesnow.space/api/v0.1";
 
-  // ✅ Watch for login updates via navigation
+  // ✅ Update user state on route changes
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     setUser(storedUser ? JSON.parse(storedUser) : null);
   }, [location]);
 
-
-  // ✅ Also poll for OTP login/localStorage changes every second
+  // ✅ Listen for manual localStorage updates (e.g., from OTP verify)
   useEffect(() => {
     const interval = setInterval(() => {
       const storedUser = localStorage.getItem("user");
@@ -32,11 +30,10 @@ function Home() {
         setUser(parsedUser);
       }
     }, 1000);
-
     return () => clearInterval(interval);
   }, [user]);
 
-  // Fetch states once
+  // ✅ Load all states once
   useEffect(() => {
     fetch(`${COUNTRY_API}/countries/states`, {
       method: "POST",
@@ -110,6 +107,7 @@ function Home() {
         <motion.h1 className="text-4xl font-bold text-indigo-700" whileHover={{ scale: 1.1 }}>
           SnackSource
         </motion.h1>
+
         <nav className="space-x-6 text-indigo-700 font-medium">
           <Link to="/user-manual" className="hover:text-indigo-900">User Manual</Link>
 
