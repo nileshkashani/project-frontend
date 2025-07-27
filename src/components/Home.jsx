@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+
 function Home() {
   const [user, setUser] = useState(null);
   const [states, setStates] = useState([]);
@@ -20,6 +21,7 @@ function Home() {
     const storedUser = localStorage.getItem("user");
     setUser(storedUser ? JSON.parse(storedUser) : null);
   }, [location]);
+
 
   // ✅ Also poll for OTP login/localStorage changes every second
   useEffect(() => {
