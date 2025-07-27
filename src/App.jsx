@@ -10,11 +10,13 @@ import OrderList from "./components/OrderList";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyProducts from "./components/MyProducts";
 import UserManual from "./components/UserManual";
-import Footer from "./components/Footer"; // 🆕 Import Footer
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop"; // ✅ Import ScrollToTop
 
 function App() {
   return (
     <Router>
+      <ScrollToTop /> {/* ✅ Scroll to top on route change */}
       <div className="flex flex-col min-h-screen">
         <div className="flex-grow">
           <Routes>
@@ -68,7 +70,7 @@ function App() {
             />
           </Routes>
         </div>
-        <Footer /> {/* ✅ Footer always visible */}
+        <Footer />
       </div>
     </Router>
   );

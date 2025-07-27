@@ -97,7 +97,7 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-br from-gray-50 to-indigo-100  font-inter">
+    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-br from-gray-50 to-indigo-100 font-inter">
       {/* Header */}
       <motion.header
         className="bg-white shadow-lg py-4 px-6 flex justify-between items-center sticky top-0 z-50"
@@ -107,7 +107,7 @@ function Home() {
       >
         {/* Logo + Title */}
         <div className="flex items-center space-x-2">
-          <img src="/assets/logo1.png" className="w-10 h-10" alt="Logo" />
+          <img src="/assets/logo1.png" className="w-12 h-12" alt="Logo" />
           <motion.h1 className="text-3xl md:text-4xl font-bold text-indigo-700" whileHover={{ scale: 1.1 }}>
             SnackSource
           </motion.h1>
