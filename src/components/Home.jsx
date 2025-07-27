@@ -94,7 +94,7 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-br from-gray-50 to-indigo-100 font-sans h-96">
+    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-br from-gray-50 to-indigo-100 font-sans">
       {/* Header */}
       <motion.header
         className="bg-white shadow-lg py-4 px-6 flex justify-between items-center sticky top-0 z-50"
