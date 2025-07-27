@@ -10,6 +10,7 @@ function Checkout() {
   const checkoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const total = checkoutItems.reduce(
     (acc, item) => acc + item.quantity * item.product.price,
@@ -35,6 +36,8 @@ function Checkout() {
     }
 
     try {
+      setLoading(true);
+
       const productIds = checkoutItems.map((item) => item.product.id);
       const quantities = checkoutItems.map((item) => item.quantity);
 
@@ -62,6 +65,8 @@ function Checkout() {
     } catch (err) {
       console.error("Error placing order:", err);
       alert("Failed to place order: " + (err.response?.data || err.message));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,7 +82,9 @@ function Checkout() {
             {checkoutItems.map((item) => (
               <li key={item.id} className="py-2 flex justify-between">
                 <span>{item.product.name}</span>
-                <span>₹{item.product.price} × {item.quantity}</span>
+                <span>
+                  ₹{item.product.price} × {item.quantity}
+                </span>
               </li>
             ))}
           </ul>
@@ -129,9 +136,16 @@ function Checkout() {
 
           <button
             onClick={placeOrder}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded w-full"
+            disabled={loading}
+            className={`${
+              loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+            } text-white px-6 py-2 rounded w-full`}
           >
-            Confirm & Pay
+            {loading
+              ? "Processing..."
+              : paymentMethod === "COD"
+              ? "Confirm Order"
+              : "Confirm & Pay"}
           </button>
         </>
       )}

@@ -1,31 +1,34 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 function Home() {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-
+  const [user, setUser] = useState(null);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [stateSuggestions, setStateSuggestions] = useState([]);
   const [citySuggestions, setCitySuggestions] = useState([]);
-
   const navigate = useNavigate();
+  const location = useLocation();
+
   const COUNTRY_API = "https://countriesnow.space/api/v0.1";
 
-  // Refresh user if storage updates (like OTP login)
+  // 🔁 Detect login via OTP or page redirect
   useEffect(() => {
-    const handleStorageUpdate = () => {
+    const storedUser = localStorage.getItem("user");
+    setUser(storedUser ? JSON.parse(storedUser) : null);
+  }, [location]);
+
+  // Also update user if storage is updated from other tabs
+  useEffect(() => {
+    const handleStorage = () => {
       const storedUser = localStorage.getItem("user");
       setUser(storedUser ? JSON.parse(storedUser) : null);
     };
-    window.addEventListener("storage", handleStorageUpdate);
-    return () => window.removeEventListener("storage", handleStorageUpdate);
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   useEffect(() => {
@@ -55,28 +58,24 @@ function Home() {
   const handleStateInput = (e) => {
     const value = e.target.value;
     setSelectedState(value);
-    setStateSuggestions(
-      states.filter((s) => s.toLowerCase().startsWith(value.toLowerCase()))
-    );
+    setStateSuggestions(states.filter((s) => s.toLowerCase().startsWith(value.toLowerCase())));
     if (value.length > 2 && states.includes(value)) fetchCities(value);
   };
 
   const handleCityInput = (e) => {
     const value = e.target.value;
     setSelectedCity(value);
-    setCitySuggestions(
-      cities.filter((c) => c.toLowerCase().startsWith(value.toLowerCase()))
-    );
+    setCitySuggestions(cities.filter((c) => c.toLowerCase().startsWith(value.toLowerCase())));
   };
 
-  const selectState = (stateName) => {
-    setSelectedState(stateName);
+  const selectState = (state) => {
+    setSelectedState(state);
     setStateSuggestions([]);
-    fetchCities(stateName);
+    fetchCities(state);
   };
 
-  const selectCity = (cityName) => {
-    setSelectedCity(cityName);
+  const selectCity = (city) => {
+    setSelectedCity(city);
     setCitySuggestions([]);
   };
 
@@ -84,9 +83,7 @@ function Home() {
     if (selectedState && selectedCity) {
       localStorage.setItem("state", selectedState);
       localStorage.setItem("city", selectedCity);
-      navigate(
-        `/products?state=${encodeURIComponent(selectedState)}&city=${encodeURIComponent(selectedCity)}`
-      );
+      navigate(`/products?state=${encodeURIComponent(selectedState)}&city=${encodeURIComponent(selectedCity)}`);
     }
   };
 
@@ -104,44 +101,40 @@ function Home() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, type: "spring" }}
       >
-        <motion.h1
-          className="text-4xl font-bold text-indigo-700"
-          whileHover={{ scale: 1.1 }}
-        >
+        <motion.h1 className="text-4xl font-bold text-indigo-700" whileHover={{ scale: 1.1 }}>
           SnackSource
         </motion.h1>
         <nav className="space-x-6 text-indigo-700 font-medium">
-  <Link to="/user-manual" className="hover:text-indigo-900">User Manual</Link>
+          <Link to="/user-manual" className="hover:text-indigo-900">User Manual</Link>
 
-  {user ? (
-    <>
-      {user.role === "VENDOR" && (
-        <>
-          <Link to="/cart" className="hover:text-indigo-900">My Cart</Link>
-          <Link to="/orders" className="hover:text-indigo-900">My Orders</Link>
-        </>
-      )}
-      {user.role === "SUPPLIER" && (
-        <>
-          <Link to="/add-product" className="hover:text-indigo-900">Add Raw Material</Link>
-          <Link to="/my-products" className="hover:text-indigo-900">My Raw Materials</Link>
-        </>
-      )}
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-      >
-        Logout
-      </button>
-    </>
-  ) : (
-    <>
-      <Link to="/register" className="hover:text-indigo-900">Register</Link>
-      <Link to="/login" className="hover:text-indigo-900">Login</Link>
-    </>
-  )}
-</nav>
-
+          {user ? (
+            <>
+              {user.role === "VENDOR" && (
+                <>
+                  <Link to="/cart" className="hover:text-indigo-900">My Cart</Link>
+                  <Link to="/orders" className="hover:text-indigo-900">My Orders</Link>
+                </>
+              )}
+              {user.role === "SUPPLIER" && (
+                <>
+                  <Link to="/add-product" className="hover:text-indigo-900">Add Raw Material</Link>
+                  <Link to="/my-products" className="hover:text-indigo-900">My Raw Materials</Link>
+                </>
+              )}
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/register" className="hover:text-indigo-900">Register</Link>
+              <Link to="/login" className="hover:text-indigo-900">Login</Link>
+            </>
+          )}
+        </nav>
       </motion.header>
 
       <motion.main
@@ -159,12 +152,7 @@ function Home() {
           Empowering Street Food Vendors
         </motion.h2>
 
-        <motion.p
-          className="text-gray-700 text-lg mb-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.p className="text-gray-700 text-lg mb-10">
           Connect with affordable suppliers. Explore raw materials, manage your cart, and order smoothly.
         </motion.p>
 
@@ -175,8 +163,7 @@ function Home() {
           >
             <h3 className="text-xl font-bold mb-4 text-indigo-600">Find Raw Materials Near You</h3>
 
-            {/* State Input */}
-            <motion.div className="relative mb-4">
+            <div className="relative mb-4">
               <input
                 type="text"
                 value={selectedState}
@@ -185,7 +172,7 @@ function Home() {
                 className="border px-4 py-2 rounded-md w-full"
               />
               {stateSuggestions.length > 0 && (
-                <motion.ul className="absolute bg-white border w-full mt-1 rounded shadow max-h-40 overflow-y-auto">
+                <ul className="absolute bg-white border w-full mt-1 rounded shadow max-h-40 overflow-y-auto z-10">
                   {stateSuggestions.map((s, i) => (
                     <li
                       key={i}
@@ -195,12 +182,11 @@ function Home() {
                       {s}
                     </li>
                   ))}
-                </motion.ul>
+                </ul>
               )}
-            </motion.div>
+            </div>
 
-            {/* City Input */}
-            <motion.div className="relative mb-4">
+            <div className="relative mb-4">
               <input
                 type="text"
                 value={selectedCity}
@@ -209,7 +195,7 @@ function Home() {
                 className="border px-4 py-2 rounded-md w-full"
               />
               {citySuggestions.length > 0 && (
-                <motion.ul className="absolute bg-white border w-full mt-1 rounded shadow max-h-40 overflow-y-auto">
+                <ul className="absolute bg-white border w-full mt-1 rounded shadow max-h-40 overflow-y-auto z-10">
                   {citySuggestions.map((c, i) => (
                     <li
                       key={i}
@@ -219,18 +205,16 @@ function Home() {
                       {c}
                     </li>
                   ))}
-                </motion.ul>
+                </ul>
               )}
-            </motion.div>
+            </div>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={handleSearchSuppliers}
               className="bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700"
             >
               Search
-            </motion.button>
+            </button>
           </motion.div>
         )}
       </motion.main>

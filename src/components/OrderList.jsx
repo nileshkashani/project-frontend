@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 
 function OrderList() {
+  // Parse user only once and memoize so it doesn't change every render
+  const user = useMemo(() => JSON.parse(localStorage.getItem("user")), []);
+
   const [orders, setOrders] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     if (user && user.id) {
@@ -12,7 +14,7 @@ function OrderList() {
         .then((res) => setOrders(res.data))
         .catch((err) => console.error("Error fetching orders", err));
     }
-  }, [user]);
+  }, [user]); // user reference is stable now
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-6">
