@@ -107,7 +107,7 @@ function Home() {
       >
         {/* Logo + Title */}
         <div className="flex items-center space-x-2">
-          <img src="assets/logo1.png" alt="Logo" className="w-10 h-10" />
+          <img src="public/assets/logo1.png" className="w-10 h-10" />
           <motion.h1 className="text-3xl md:text-4xl font-bold text-indigo-700" whileHover={{ scale: 1.1 }}>
             SnackSource
           </motion.h1>
