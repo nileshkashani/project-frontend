@@ -36,10 +36,12 @@ function Checkout() {
 
     try {
       const productIds = checkoutItems.map((item) => item.product.id);
+      const quantities = checkoutItems.map((item) => item.quantity);
 
       const requestBody = {
         vendorId,
         productIds,
+        quantities,
         deliveryAddress,
         paymentMethod,
       };
@@ -59,7 +61,7 @@ function Checkout() {
       navigate("/orders");
     } catch (err) {
       console.error("Error placing order:", err);
-      alert("Failed to place order.");
+      alert("Failed to place order: " + (err.response?.data || err.message));
     }
   };
 
