@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiMenu, FiX } from "react-icons/fi";
+import logo from './assets/logo.png';
 
 function Home() {
   const [user, setUser] = useState(null);
@@ -107,7 +108,7 @@ function Home() {
       >
         {/* Logo + Title */}
         <div className="flex items-center space-x-2">
-          <img src="/logo.png" alt="Logo" className="w-10 h-10" />
+          <img src={logo} alt="Logo" className="w-10 h-10" />
           <motion.h1 className="text-3xl md:text-4xl font-bold text-indigo-700" whileHover={{ scale: 1.1 }}>
             SnackSource
           </motion.h1>
