@@ -56,7 +56,7 @@
     const handleVerifyOtp = async () => {
       try {
         const res = await axios.post(
-          "https://project-backend-production-d6c2.up.railway.app/users/verify-otp", // ✅ Correct path
+          "https://project-backend-production-d6c2.up.railway.app/verify-otp", // ✅ Correct path
           {
             email: user.email,
             otp: otpInput,
