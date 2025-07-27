@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { FiMenu, FiX } from "react-icons/fi";
 
 function Home() {
   const [user, setUser] = useState(null);
@@ -10,6 +11,8 @@ function Home() {
   const [selectedCity, setSelectedCity] = useState("");
   const [stateSuggestions, setStateSuggestions] = useState([]);
   const [citySuggestions, setCitySuggestions] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -102,13 +105,24 @@ function Home() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, type: "spring" }}
       >
-        <motion.h1 className="text-4xl font-bold text-indigo-700" whileHover={{ scale: 1.1 }}>
-          SnackSource
-        </motion.h1>
+        {/* Logo + Title */}
+        <div className="flex items-center space-x-2">
+          <img src="/logo.png" alt="Logo" className="w-10 h-10" />
+          <motion.h1 className="text-3xl md:text-4xl font-bold text-indigo-700" whileHover={{ scale: 1.1 }}>
+            SnackSource
+          </motion.h1>
+        </div>
 
-        <nav className="space-x-6 text-indigo-700 font-medium">
+        {/* Mobile menu toggle */}
+        <div className="md:hidden">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="text-indigo-700 text-2xl">
+            {menuOpen ? <FiX /> : <FiMenu />}
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <nav className="hidden md:flex space-x-6 text-indigo-700 font-medium">
           <Link to="/user-manual" className="hover:text-indigo-900">User Manual</Link>
-
           {user ? (
             <>
               {user.role === "VENDOR" && (
@@ -138,6 +152,40 @@ function Home() {
           )}
         </nav>
       </motion.header>
+
+      {/* Mobile Dropdown Nav */}
+      {menuOpen && (
+        <div className="md:hidden bg-white shadow-md px-6 py-4 space-y-4 text-indigo-700 font-medium">
+          <Link to="/user-manual" className="block hover:text-indigo-900" onClick={() => setMenuOpen(false)}>User Manual</Link>
+          {user ? (
+            <>
+              {user.role === "VENDOR" && (
+                <>
+                  <Link to="/cart" className="block hover:text-indigo-900" onClick={() => setMenuOpen(false)}>My Cart</Link>
+                  <Link to="/orders" className="block hover:text-indigo-900" onClick={() => setMenuOpen(false)}>My Orders</Link>
+                </>
+              )}
+              {user.role === "SUPPLIER" && (
+                <>
+                  <Link to="/add-product" className="block hover:text-indigo-900" onClick={() => setMenuOpen(false)}>Add Raw Material</Link>
+                  <Link to="/my-products" className="block hover:text-indigo-900" onClick={() => setMenuOpen(false)}>My Raw Materials</Link>
+                </>
+              )}
+              <button
+                onClick={() => { handleLogout(); setMenuOpen(false); }}
+                className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/register" className="block hover:text-indigo-900" onClick={() => setMenuOpen(false)}>Register</Link>
+              <Link to="/login" className="block hover:text-indigo-900" onClick={() => setMenuOpen(false)}>Login</Link>
+            </>
+          )}
+        </div>
+      )}
 
       {/* Main Content */}
       <motion.main
@@ -223,6 +271,11 @@ function Home() {
           </motion.div>
         )}
       </motion.main>
+
+      {/* Footer */}
+      <footer className="bg-white text-center py-4 text-gray-500 text-sm shadow-inner">
+        © {new Date().getFullYear()} SnackSource. All rights reserved.
+      </footer>
     </div>
   );
 }
