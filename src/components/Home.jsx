@@ -15,13 +15,11 @@ function Home() {
 
   const COUNTRY_API = "https://countriesnow.space/api/v0.1";
 
-  // ✅ Update user state on route changes
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     setUser(storedUser ? JSON.parse(storedUser) : null);
   }, [location]);
 
-  // ✅ Listen for manual localStorage updates (e.g., from OTP verify)
   useEffect(() => {
     const interval = setInterval(() => {
       const storedUser = localStorage.getItem("user");
@@ -33,7 +31,6 @@ function Home() {
     return () => clearInterval(interval);
   }, [user]);
 
-  // ✅ Load all states once
   useEffect(() => {
     fetch(`${COUNTRY_API}/countries/states`, {
       method: "POST",
@@ -97,7 +94,8 @@ function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-100 font-sans">
+    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-br from-gray-50 to-indigo-100 font-sans h-[105px]">
+      {/* Header */}
       <motion.header
         className="bg-white shadow-lg py-4 px-6 flex justify-between items-center sticky top-0 z-50"
         initial={{ y: -50, opacity: 0 }}
@@ -141,8 +139,11 @@ function Home() {
         </nav>
       </motion.header>
 
+      {/* Main Content */}
       <motion.main
-        className="max-w-4xl mx-auto py-20 px-6 text-center"
+        className={`px-6 text-center flex-grow flex flex-col ${
+          !user ? "justify-center items-center" : "justify-start pt-20"
+        }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.6 }}
@@ -222,6 +223,11 @@ function Home() {
           </motion.div>
         )}
       </motion.main>
+
+      {/* Footer */}
+      <footer className="text-center text-gray-600 py-4 bg-white shadow-inner">
+        © {new Date().getFullYear()} SnackSource. All rights reserved.
+      </footer>
     </div>
   );
 }
