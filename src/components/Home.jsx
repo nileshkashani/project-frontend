@@ -272,10 +272,7 @@ function Home() {
         )}
       </motion.main>
 
-      {/* Footer */}
-      <footer className="bg-white text-center py-4 text-gray-500 text-sm shadow-inner">
-        © {new Date().getFullYear()} SnackSource. All rights reserved.
-      </footer>
+  
     </div>
   );
 }
