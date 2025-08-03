@@ -57,6 +57,11 @@ function Home() {
       .then((data) => setCities(data.data || []))
       .catch((err) => console.error("Failed to load cities", err));
   };
+  useEffect(() => {
+  if (user?.role === "VENDOR") {
+    alert("For better experience, please select 'state' as 'Maharashtra' and 'city' as 'pune'");
+  }
+}, [user]);
 
   const handleStateInput = (e) => {
     const value = e.target.value;
